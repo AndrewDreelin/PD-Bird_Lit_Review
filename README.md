@@ -29,4 +29,3 @@ Exact search string (keywords + Boolean): prairie dog* AND bird* OR avian OR son
 •  Include papers on sylvatic plague effects on bird population dynamics
 •	Exclude papers on prairie dog life history/sociality not relevant to their community ecology
 •	Exclude papers on medical/veterinary details of plague that would not be relevant to dynamics of bird population response or community effects
-![image](https://user-images.githubusercontent.com/60616793/216999749-0dd24a0b-9273-4ed5-a1ff-aae07b90307e.png)
