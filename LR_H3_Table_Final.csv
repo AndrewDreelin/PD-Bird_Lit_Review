@@ -1,0 +1,103 @@
+Bird Species,Bird_Population_Parameter,Life_Cycle_Phase,Location,PD Species,Methodology,Variable,Effect Direction,Conclusion,Descriptive only?,Reference,Ref_Num
+American Kestrel,Occurrence,Year-round/Adult,"TX, NM (USA)",BTPD,Relative abundance,Avg birds/count,Negative,Does not support,No,Merriman et al,12
+American Kestrel,Occurrence,Breeding Season/Adult,WY (USA),BTPD,General survey,NA,Positive,Supports,Yes,Campbell and Clark,46
+American Kestrel,Occurrence,Breeding Season/Adult,WY (USA),WTPD,General survey,NA,Positive,Supports,Yes,Campbell and Clark,46
+American Kestrel,Occurrence,Year-round/Adult,"TX, NM (USA)",BTPD,Relative abundance,birds/site,Negative,Does not support,No,Merriman,271
+Bald Eagle,Nesting,Breeding Season/Adult,CO (USA),"BTPD, WTPD, GUPD",Distribution model,Nest distance to PD town,Positive,Supports,No,Aagard et al,1
+Bald Eagle,Occurrence,Breeding Season/Adult,CO (USA),BTPD,Relative abundance,Distance to nearest prairie dog town,Negative,Supports,No,Berry,3
+Bald Eagle,Nesting,Breeding Season/Adult,TX (USA),BTPD,Diet composition by frequency,# of pellets,Positive,Supports,Yes,Boal et al,4
+Bald Eagle,Occurrence,Nonbreeding Season/Adult,NLE (MX),MEPD,Behaviorial observation,NA,Positive,Supports,Yes,Borre-Gonzalez et al,5
+Bald Eagle,Occurrence,Nonbreeding Season/Adult,CHH (MX),BTPD,General survey,NA,Positive,Supports,Yes,Manzano-Fischer et al (1999),56
+Bald Eagle,Occurrence,Nonbreeding Season/Adult,OK (USA),BTPD,General survey,NA,Positive,Supports,Yes,Tyler et al (1968),62
+Bald Eagle,Diet,Nonbreeding Season/Adult,TX (USA),BTPD,Behavioral anecdote,NA,Positive,Supports,Yes,Allison et al,220
+Bald Eagle,Diet,Year-round/Adult,KS (USA),BTPD,Behavioral observation,NA,Positive,Supports,Yes,Gloyd,227
+Bald Eagle,Occurrence,"Postbreeding Migration, Nonbreeding Season, Prebreeding Migration/Adult",CO (USA),BTPD,Relative density,raptors/route,Neutral,Equivocal,No,Jones,228
+Ferruginous Hawk,Nesting,Breeding Season/Adult,CO (USA),"BTPD, WTPD, GUPD",Distribution model,Nest distance to PD town,Neutral,Equivocal,No,Aagard et al,1
+Ferruginous Hawk,Occurrence,Nonbreeding Season/Adult,"CHH (MX), NM (USA)",BTPD,Presence/absence,Binary,Positive,Supports,No,Bak,2
+Ferruginous Hawk,Occurrence,Breeding Season/Adult,CO (USA),BTPD,Relative abundance,Distance to nearest prairie dog town,Negative,Supports,No,Berry,3
+Ferruginous Hawk,Diet,Breeding Season/Adult,NM (USA),GUPD,Diet analysis,Prey item frequency,Positive,Supports,Yes,Cartron et al,6
+Ferruginous Hawk,Nesting,Breeding Season/Adult,NM (USA),GUPD,Nest site selection,Nest distance to PD town,Positive,Supports,No,Cook et al ,7
+Ferruginous Hawk,Nesting,Breeding Season/Adult,NM (USA),GUPD,Productivity,# of fledglings/nest,Positive,Supports,No,Cook et al ,7
+Ferruginous Hawk,Occurrence,Breeding Season & Postbreeding Season/Adult,NM (USA),GUPD,Relative abundance ,Avg birds/count,Positive,Supports,No,Cully,8
+Ferruginous Hawk,Nesting,Breeding Season/Adult,CO (USA),BTPD,Frequency,Number of prey items,Positive,Supports,No,Giovanni et al,9
+Ferruginous Hawk,Nesting,Breeding Season/Adult,CO (USA),BTPD,Biomass,Percent (in grams),Positive,Supports,No,Giovanni et al,9
+Ferruginous Hawk,Nesting,Breeding Season/Adult,NM (USA),GUPD,Productivity,Number of fledglings,Positive,Supports,No,Keeley et al,10
+Ferruginous Hawk,Nesting,Breeding Season/Adult,NM (USA),GUPD,Nest success,Binary,Positive,Supports,No,Keeley et al,10
+Ferruginous Hawk,Nesting,Breeding Season/Adult,NM (USA),GUPD,Diet analysis,Prey item frequency,Positive,Supports,No,Keeley et al,10
+Ferruginous Hawk,Nesting,Breeding Season/Adult,NM (USA),GUPD,Diet analysis,Prey item biomass,Positive,Supports,No,Keeley et al,10
+Ferruginous Hawk,Diet,Year-round/Adult,"ND, SD, WY, CO, OK (USA)",BTPD,Behavioral anecdote,NA,Positive,Supports,Yes,Koford,11
+Ferruginous Hawk,Occurrence,Nonbreeding Season/Adult,"TX, NM (USA)",BTPD,Relative abundance,Avg birds/count,Positive,Supports,No,Merriman et al,12
+Ferruginous Hawk,Movement,Nonbreeding Season/Adult,CO (USA),BTPD,Telemetry,Home range area (MCP),Positive,Supports,No,Plumpton and Anderson,13
+Ferruginous Hawk,Occurrence,Nonbreeding Season/Adult,CO (USA),BTPD,Relative abundance,birds/survey,Positive,Supports,No,Plumpton and Anderson,14
+Ferruginous Hawk,Occurrence,Nonbreeding Season/Adult,CO (USA),BTPD,Relative abundance,Avg birds/count,Positive,Supports,No,Seery and Matiatos,15
+Ferruginous Hawk,Movement,Year-round/Adult,"CA, USA, MX","BTPD, MEPD",Satellite telemetry,# of migration routes,Positive,Supports,Yes,Watson et al,17
+Ferruginous Hawk,Occurrence,Breeding Season/Adult,WY (USA),BTPD,General survey,NA,Positive,Supports,Yes,Campbell and Clark,46
+Ferruginous Hawk,Occurrence,Breeding Season/Adult,WY (USA),WTPD,General survey,NA,Positive,Supports,Yes,Campbell and Clark,46
+Ferruginous Hawk,Occurrence,Breeding Season/Adult,NM (USA),BTPD,Relative density,birds/km^2,Positive,Supports,No,Gogeun 2012,53
+Ferruginous Hawk,Occurrence,Nonbreeding Season/Adult,CHH (MX),BTPD,General survey,NA,Positive,Supports,Yes,Manzano-Fischer et al (1999),56
+Ferruginous Hawk,Occurrence,Nonbreeding Season/Adult,OK (USA),BTPD,General survey,NA,Positive,Supports,Yes,Tyler et al (1968),62
+Ferruginous Hawk,Diet,Nonbreeding Season/Adult,TX (USA),BTPD,Behavioral anecdote,NA,Positive,Supports,Yes,Allison et al,220
+Ferruginous Hawk,Occurrence,"Postbreeding Migration, Nonbreeding Season, Prebreeding Migration/Adult",CO (USA),BTPD,Relative density,raptors/route,Positive,Supports,No,Jones,228
+Ferruginous Hawk,Diet,Breeding Season/Adult,WY (USA),WTPD,Diet analysis,Prey item frequency,Positive,Supports,Yes,MacLaren et al,265
+Ferruginous Hawk,Diet,Breeding Season/Adult,SD (USA),BTPD,Diet analysis,Prey item frequency,Negative,Does not support,No,Blair and Schitosky,266
+Ferruginous Hawk,Nesting,Breeding Season/Adult,UT(USA),WTPD,Nest occupancy,Binary,Positive,Supports,Yes,Keough and Conover,267
+Ferruginous Hawk,Nesting,Breeding Season/Adult,KS (USA),BTPD,Nest site selection,NA,Neutral,Equivocal,No,Roth and Marzluff,269
+Ferruginous Hawk,Occurrence,Nonbreeding Season/Adult,"TX, NM (USA)",BTPD,Relative density,hawks/100 km,Positive,Supports,Yes,Schmutz and Fyfe,270
+Ferruginous Hawk,Occurrence,Year-round/Adult,"TX, NM (USA)",BTPD,Relative abundance,Avg birds/count,Positive,Supports,No,Merriman,271
+Golden Eagle,Nesting,Breeding Season/Adult,CO (USA),"BTPD, WTPD, GUPD",Distribution model,Nest distance to PD town,Positive,Supports,No,Aagard et al,1
+Golden Eagle,Occurrence,Breeding Season & Postbreeding Season/Adult,NM (USA),GUPD,Relative abundance ,Avg birds/count,Positive,Supports,No,Cully,8
+Golden Eagle,Diet,Year-round/Adult,"ND, SD, WY, CO, OK (USA)",BTPD,Behavioral anecdote,NA,Positive,Supports,Yes,Koford,11
+Golden Eagle,Occurrence,Breeding Season/Adult,WY (USA),BTPD,General survey,NA,Positive,Supports,Yes,Campbell and Clark,46
+Golden Eagle,Occurrence,Breeding Season/Adult,WY (USA),WTPD,General survey,NA,Positive,Supports,Yes,Campbell and Clark,46
+Golden Eagle,Occurrence,Year-round/Adult,CHH (MX),BTPD,General survey,NA,Positive,Supports,Yes,Manzano-Fischer et al (1999),56
+Golden Eagle,Diet,Breeding Season/Adult,MT (USA),BTPD,Camera trap,% carcasses visited,Positive,Supports,Yes,McTee et al,58
+Golden Eagle,Occurrence,Year-round/Adult,OK (USA),BTPD,General survey,NA,Positive,Supports,Yes,Tyler et al (1968),62
+Golden Eagle,Diet,Breeding Season/Adult,CO (USA),BTPD,Diet analysis,Frequency,Positive,Supports,Yes,D'Ostilio,219
+Golden Eagle,Diet,Year-round/Adult,KS (USA),BTPD,Behavioral observation,NA,Positive,Supports,Yes,Gloyd,227
+Golden Eagle,Diet,Breeding Season/Adult,WY (USA),WTPD,Diet analysis,Prey item frequency,Positive,Supports,Yes,MacLaren et al,265
+Golden Eagle,Diet,Breeding Season/Adult,"TX, NM (USA)","BTPD, GUPD",Diet analysis,Prey item frequency,Positive,Supports,No,Mollhagen et al,268
+Great Horned Owl,Occurrence,Breeding Season/Adult,WY (USA),BTPD,General survey,NA,Positive,Supports,Yes,Campbell and Clark,46
+Great Horned Owl,Occurrence,Year-round/Adult,CHH (MX),BTPD,General survey,NA,Positive,Equivocal,Yes,Manzano-Fischer et al (1999),56
+Northern Harrier,Occurrence,Year-round/Adult,"TX, NM (USA)",BTPD,Relative abundance,Avg birds/count,Neutral,Equivocal,No,Merriman et al,12
+Northern Harrier,Occurrence,Breeding Season/Adult,WY (USA),BTPD,General survey,NA,Positive,Supports,Yes,Campbell and Clark,46
+Northern Harrier,Occurrence,Breeding Season/Adult,WY (USA),WTPD,General survey,NA,Positive,Supports,Yes,Campbell and Clark,46
+Northern Harrier,Occurrence,Year-round/Adult,CHH (MX),BTPD,General survey,NA,Positive,Supports,Yes,Manzano-Fischer et al (1999),56
+Northern Harrier,Diet,Breeding Season/Adult,MT (USA),BTPD,Camera trap,% carcasses visited,Positive,Supports,Yes,McTee et al,58
+Northern Harrier,Occurrence,"Postbreeding Migration, Nonbreeding Season, Prebreeding Migration/Adult",CO (USA),BTPD,Relative density,raptors/route,Neutral,Equivocal,No,Jones,228
+Northern Harrier,Occurrence,Year-round/Adult,"TX, NM (USA)",BTPD,Relative abundance,birds/site,Neutral,Equivocal,No,Merriman,271
+Prairie Falcon,Nesting,Breeding Season/Adult,CO (USA),"BTPD, WTPD, GUPD",Distribution model,Nest distance to PD town,Positive,Supports,No,Aagard et al,1
+Prairie Falcon,Occurrence,Breeding Season/Adult,CO (USA),BTPD,Relative abundance,Distance to nearest prairie dog town,Neutral,Equivocal,No,Berry,3
+Prairie Falcon,Diet,Year-round/Adult,"ND, SD, WY, CO, OK (USA)",BTPD,Behavioral anecdote,NA,Positive,Supports,Yes,Koford,11
+Prairie Falcon,Occurrence,Breeding Season/Adult,WY (USA),BTPD,General survey,NA,Positive,Supports,Yes,Campbell and Clark,46
+Prairie Falcon,Occurrence,Breeding Season/Adult,WY (USA),WTPD,General survey,NA,Positive,Supports,Yes,Campbell and Clark,46
+Prairie Falcon,Occurrence,"Postbreeding Migration, Nonbreeding Season/Adult",CHH (MX),BTPD,General survey,NA,Neutral,Equivocal,Yes,Manzano-Fischer et al (1999),56
+Prairie Falcon,Occurrence,Year-round/Adult,OK (USA),BTPD,General survey,NA,Positive,Supports,Yes,Tyler et al (1968),62
+Prairie Falcon,Diet,Breeding Season/Adult,WY (USA),WTPD,Diet analysis,Prey item frequency,Positive,Supports,Yes,MacLaren et al,265
+Red-tailed Hawk,Occurrence,Breeding Season & Postbreeding Season/Adult,NM (USA),GUPD,Relative abundance ,Avg birds/count,Neutral,Equivocal,No,Cully,8
+Red-tailed Hawk,Diet,Year-round/Adult,"ND, SD, WY, CO, OK (USA)",BTPD,Behavioral anecdote,NA,Positive,Supports,Yes,Koford,11
+Red-tailed Hawk,Occurrence,Year-round/Adult,"TX, NM (USA)",BTPD,Relative abundance,Avg birds/count,Neutral,Equivocal,No,Merriman et al,12
+Red-tailed Hawk,Occurrence,Nonbreeding Season/Adult,CO (USA),BTPD,Relative abundance,Avg birds/count,Neutral,Equivocal,No,Seery and Matiatos,15
+Red-tailed Hawk,Occurrence,Breeding Season/Adult,WY (USA),BTPD,General survey,NA,Positive,Supports,Yes,Campbell and Clark,46
+Red-tailed Hawk,Occurrence,Breeding Season/Adult,WY (USA),WTPD,General survey,NA,Positive,Supports,Yes,Campbell and Clark,46
+Red-tailed Hawk,Occurrence,Year-round/Adult,CO (USA),BTPD,Total count,Birds/count,Neutral,Equivocal,No,Magle et al (2012),55
+Red-tailed Hawk,Diet,Breeding Season/Adult,MT (USA),BTPD,Camera trap,% carcasses visited,Positive,Supports,Yes,McTee et al,58
+Red-tailed Hawk,Occurrence,"Postbreeding Migration, Nonbreeding Season, Prebreeding Migration/Adult",CO (USA),BTPD,Relative density,raptors/route,Positive,Supports,No,Jones,228
+Red-tailed Hawk,Diet,Breeding Season/Adult,WY (USA),WTPD,Diet analysis,Prey item frequency,Positive,Supports,Yes,MacLaren et al,265
+Red-tailed Hawk,Occurrence,Year-round/Adult,"TX, NM (USA)",BTPD,Relative abundance,birds/site,Neutral,Equivocal,No,Merriman,271
+Rough-legged Hawk,Occurrence,Nonbreeding Season/Adult,CO (USA),BTPD,Relative abundance,Distance to nearest prairie dog town,Positive,Supports,No,Berry,3
+Rough-legged Hawk,Diet,Year-round/Adult,"ND, SD, WY, CO, OK (USA)",BTPD,Behavioral anecdote,NA,Positive,Supports,Yes,Koford,11
+Rough-legged Hawk,Occurrence,Nonbreeding Season/Adult,CO (USA),BTPD,Relative abundance,Avg birds/count,Neutral,Equivocal,No,Seery and Matiatos,15
+Rough-legged Hawk,Occurrence,Nonbreeding Season/Adult,OK (USA),BTPD,General survey,NA,Positive,Supports,Yes,Tyler et al (1968),62
+Rough-legged Hawk,Diet,Nonbreeding Season/Adult,TX (USA),BTPD,Behavioral anecdote,NA,Positive,Supports,Yes,Allison et al,220
+Swainson's Hawk,Nesting,Breeding Season/Adult,CO (USA),BTPD,Frequency,Number of prey items,Negative,Does not support,No,Giovanni et al,9
+Swainson's Hawk,Nesting,Breeding Season/Adult,CO (USA),BTPD,Biomass,Percent (in grams),Negative,Does not support,No,Giovanni et al,9
+Swainson's Hawk,Diet,Year-round/Adult,"ND, SD, WY, CO, OK (USA)",BTPD,Behavioral anecdote,NA,Positive,Supports,Yes,Koford,11
+Swainson's Hawk,Occurrence,Year-round/Adult,"TX, NM (USA)",BTPD,Relative abundance,Avg birds/count,Negative,Does not support,No,Merriman et al,12
+Swainson's Hawk,Occurrence,Breeding Season/Adult,WY (USA),BTPD,General survey,NA,Positive,Supports,Yes,Campbell and Clark,46
+Swainson's Hawk,Occurrence,Breeding Season/Adult,WY (USA),WTPD,General survey,NA,Positive,Supports,Yes,Campbell and Clark,46
+Swainson's Hawk,Occurrence,Breeding Season/Adult,CHH (MX),BTPD,General survey,NA,Negative,Does not support,Yes,Manzano-Fischer et al (1999),56
+Swainson's Hawk,Diet,Breeding Season/Adult,MT (USA),BTPD,Camera trap,% carcasses visited,Positive,Supports,Yes,McTee et al,58
+Swainson's Hawk,Occurrence,Breeding Season/Adult,OK (USA),BTPD,General survey,NA,Positive,Supports,Yes,Tyler et al (1968),62
+Swainson's Hawk,Occurrence,Year-round/Adult,"TX, NM (USA)",BTPD,Relative abundance,birds/site,Negative,Does not support,No,Merriman,271
+Turkey Vulture,Diet,Breeding Season/Adult,MT (USA),BTPD,Camera trap,% carcasses visited,Positive,Supports,Yes,McTee et al,58
+Turkey Vulture,Occurrence,Year-round/Adult,OK (USA),BTPD,General survey,NA,Positive,Supports,Yes,Tyler et al (1968),62
