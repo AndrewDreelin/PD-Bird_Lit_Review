@@ -16,9 +16,9 @@ Prediction: if prairie dog towns increase local abundance of early successional 
  
 Prediction: if prairie dogs towns increase beta diversity of bird communities then a systematic literature review will find consistent empirical support in the results of relevant papers.
  
-3. Hypothesis: prairie dog towns increase local abundance and diversity of raptors because prairie dogs are an abundant food source for them.
+3. Hypothesis: prairie dog towns increase local abundance of raptors because prairie dogs are an abundant food source for them.
  
-Prediction: if prairie dog towns increase local abundance and diversity of raptors, then a systematic literature review will find consistent empirical support in the results of relevant papers.
+Prediction: if prairie dog towns increase local abundance of raptors, then a systematic literature review will find consistent empirical support in the results of relevant papers.
 
 Database search: Web of Science
 
