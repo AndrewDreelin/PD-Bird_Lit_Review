@@ -6,19 +6,7 @@ Understanding how prairie dogs shape animal communities is a research priority (
 
 Aim of the review is to determine the effects of prairie dogs as keystone species on bird communities. Scope is all prairie dog species (just North America) as well as any bird species affected by prairie dogs, but with a focus on obligate and facultative grassland species.
 
-Primary questions:
- 
-1. Hypothesis: prairie dog towns increase local abundance of bird species that prefer shorter vegetation heights/higher disturbance levels because prairie dog grazing creates suitable habitat for them.
- 
-Prediction: if prairie dog towns increase local abundance of early successional specialist bird species, then a systematic literature review will find consistent empirical support in the results of relevant papers.
- 
-2. Hypothesis: prairie dog towns increase beta diversity of bird communities because prairie dogs create habitat heterogeneity on their colonies.
- 
-Prediction: if prairie dogs towns increase beta diversity of bird communities then a systematic literature review will find consistent empirical support in the results of relevant papers.
- 
-3. Hypothesis: prairie dog towns increase local abundance of raptors because prairie dogs are an abundant food source for them.
- 
-Prediction: if prairie dog towns increase local abundance of raptors, then a systematic literature review will find consistent empirical support in the results of relevant papers.
+We identified three hypotheses from the literature to evaluate: 1) prairie dog towns increase local occurrence and abundance of bird species that prefer shorter vegetation heights because prairie dog grazing creates more suitable habitat for them, 2) prairie dog towns prairie dog towns change bird community composition compared to nearby grasslandincrease beta diversity of bird communities because prairie dogs towns create habitat heterogeneity within grasslands, and 3) prairie dog towns increase local occurrence and abundance of raptors because prairie dogs are an abundant food source for them. To identify potential biases or knowledge gaps, we examined the representation of differences in geography, seasonality, taxonomy, town size, and response variables across publications. 
 
 Database search: Web of Science
 
