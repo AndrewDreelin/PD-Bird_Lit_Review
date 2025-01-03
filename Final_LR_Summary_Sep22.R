@@ -1,4 +1,4 @@
-#Final_Lit_Review_Summary
+#Final_LR_Summary_Sep22
 
 #load general library
 library(tidyverse)
@@ -8,12 +8,8 @@ library(lme4)
 library(visreg)
 library(mgcv)
 library(ggmap)
-library(rgeos)
-library(rgdal)
-library(sf)
 library(broom)
 library(mapdata)
-library(maptools)
 library(terra)
 library(ggspatial)
 library(viridis)
@@ -22,6 +18,12 @@ library(forcats)
 library(gridExtra)
 library(ggpubr)
 library(cowplot)
+library(metR)
+
+library(sf)
+library(here)
+library(maps)
+library(mapdata)
 
 rev<-read.csv("PD_Bird_LR_Jan_31.csv") #read in final data set
 
@@ -58,7 +60,7 @@ rev_study_birdpubs<-rev_study_og
 
 rev_study_birdpubs$Bird_Species<-as.character(rev_study_birdpubs$Bird_Species)
 
-rev_study_birdpubs<-select(rev_study_birdpubs,-c(6:75)) #dropping unnecessary columns
+rev_study_birdpubs<-dplyr::select(rev_study_birdpubs, -c(6:75)) #dropping unnecessary columns
 rev_study_birdpubs<-filter(rev_study_birdpubs, Ref_Num != "57") #removing just to calculate bird species pubs (doesn't specify on vs. off colony)
 rev_study_birdpubs<-filter(rev_study_birdpubs, Ref_Num != "46.2") #removing just to calculate bird species pubs (different PD species)
 rev_study_birdpubs<-filter(rev_study_birdpubs, Ref_Num != "65.2") #removing just to calculate bird species pubs (different PD species)
@@ -116,6 +118,12 @@ rev_study<-filter(rev_study, Ref_Num != "48.2") #removing now that we're not cal
 rev_study<-filter(rev_study, Ref_Num != "271.2") #removing now that we're not calculating bird pubs (different bird species)
 rev_study<-filter(rev_study, Ref_Num != "271.3") #removing now that we're not calculating bird pubs (different bird species)
 
+#updating studies by bird category now that we're not calculating bird pubs
+
+buow_study<-rev_study[grep("BUOW",rev_study$Bird_Species),] 
+mopl_study<-rev_study[grep("MOPL",rev_study$Bird_Species),] 
+raptor_study<-rev_study[grep("TUVU|OSPR|GOEA|BAEA|FEHA|RTHA|RLHA|SWHA|NOHA|MIKI|AMKE|MERL|PRFA|APFA|PEFA",rev_study$Bird_Species),] 
+gen_study<-filter(rev_study, Bird_Category == "General") 
 
 
 #Hypothesis support breakdown
@@ -125,33 +133,40 @@ rev1<-rev %>% filter(rev$Hypothesis_1 != "NA")
 
 levels(rev1$Bird_Category) <- c('Burrowing Owl','General','Mountain Plover','Raptor')
 
+rev1<-filter(rev1, ! Bird_Category == 'Raptor') #dropping raptor from H1 based on reviewer feedback (now in H3 only)
+
 summary(rev1$Hypothesis_1)
 
 cbPalette <- c("#CC79A7", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#999999")
 
 #Figure 1
 ggplot(rev1) +
-  geom_bar(aes(y=factor(Bird_Category,levels=c("General","Raptor","Burrowing Owl","Mountain Plover")), fill = Hypothesis_1)) +
+  geom_bar(aes(y=factor(Bird_Category,levels=c("General","Raptor","Burrowing Owl","Mountain Plover")), fill = Hypothesis_1), width = 0.7) +
+  geom_text(stat='count', aes(y=Bird_Category, label=after_stat(count)),hjust=-0.5, size = 6) + 
   #facet_grid(~factor(rev1$Bird_Category, levels=c("MOPL","Raptor","BUOW","General"))) + #horizontal
   #facet_grid(~factor(rev1$Bird_Category, levels=c("Mountain Plover","Burrowing Owl","Raptor","General"))) + #horizontal
   labs(y = "", x = "# of Analyses",color="Hypothesis 1 Support") +
   #ggtitle("Hypothesis 1 Support by Bird Category") +
   scale_fill_manual("Conclusion", values = cbPalette) +
-  #scale_y_continuous(expand = c(0, 0), limits = c(0, 45)) +
+  #scale_y_continuous(expand = c(0, 0), limits = c(0, 65)) +
+  scale_x_continuous(expand = c(0, 0), limits = c(0, 65)) +
+  #xlim(0,65) +
   theme_bw() +
   theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank()) + 
   theme(#legend.position = "none",
-    axis.text=element_text(size=14, color="black"),
+    axis.text=element_text(size=18, color="black"),
     axis.title=element_text(size=20, color="black"),
     strip.text = element_text(size=14),
-    legend.title=element_text(size=12),
-    legend.text=element_text(size=11)
+    legend.title=element_text(size=16, color="black"),
+    legend.text=element_text(size=16, color="black")
   )
 
 #^^^best plot
 
 #Figure 2
 #read in H1 dataset
+setwd("/Users/andrewdreelin/Documents/R/phd_research")
+
 hyp1<-read.csv("LR_H1_Table_Final.csv") 
 
 str(hyp1)
@@ -165,26 +180,32 @@ hyp1<-filter(hyp1, ! Effect.Direction == "Not tested")
 hyp1<-filter(hyp1, Descriptive.only. == "No") 
 hyp1<-filter(hyp1, Bird_Population_Parameter == "Occurrence") 
 
-cbPalette <- c("#CC6677","#FFFFFF","#6699CC")
+cbPalette <- c("#6699CC","#808080","#CC6677")
 
-hyp1$Abundance_Change = factor(hyp1$Abundance_Effect, levels = c('Negative','Neutral','Positive'))
+hyp1$Abundance_Change = factor(hyp1$Abundance_Effect, levels = c('Positive','Neutral','Negative'))
 
-ggplot(hyp1) + #species in manual order of net support
-  geom_col(aes(x = Abundance_Num, y=factor(Species, levels=c("Grasshopper Sparrow","Lark Bunting","Brewer's Sparrow","Western Meadowlark","Cassin's Sparrow","Vesper Sparrow","Baird's Sparrow","Sage Thrasher","American Pipit","Brown-headed Cowbird","Bullock's Oriole","Common Nighthawk","Eastern Kingbird","Lark Sparrow","Northern Bobwhite","Northern Mockingbird","Ring-necked Pheasant",'Rough-legged Hawk',"Western Kingbird","White-crowned Sparrow","American Crow","American Goldfinch","American Robin","Black-billed Magpie","Black-capped Chickadee","Blue Jay","Bobolink","Brewer's Blackbird","Canada Goose","Dickcissel","Spotted Towhee","Song Sparrow","Chipping Sparrow","Clay-colored Sparrow","Field Sparrow","Dark-eyed Junco","Red-winged Blackbird","Common Grackle","European Starling","House Finch","Lesser Goldfinch","Sprague's Pipit","Rock Pigeon (Feral Pigeon)","Sharp-tailed Grouse","Loggerhead Shrike","House Sparrow","Cliff Swallow","Violet-green Swallow","Tree Swallow","Northern Rough-winged Swallow","Say's Phoebe","Scissor-tailed Flycatcher","Chihuahuan Raven",'Great Horned Owl',"Turkey Vulture",'Bald Eagle',"Swainson's Hawk","Mallard","Scaled Quail","Cattle Egret","Northern Flicker","American Kestrel","Prairie Falcon",'Golden Eagle',"Red-tailed Hawk","Barn Swallow","Curve-billed Thrasher","Long-billed Curlew","Chestnut-collared/Thick-billed Longspur","Chestnut-collared Longspur","Thick-billed Longspur","Upland Sandpiper","Western/Eastern Meadowlark","Mourning Dove",'Northern Harrier','Ferruginous Hawk',"Killdeer","Horned Lark","Mountain Plover","Burrowing Owl")), fill = Abundance_Change), color = "black") +
+#wide bars & lower case names
+new_fig2<-ggplot(hyp1) + #species in manual order of net support
+  geom_col(aes(x = Freq, y=factor(Species, levels=c("Grasshopper Sparrow","Lark Bunting","Brewer's Sparrow","Western Meadowlark","Cassin's Sparrow","Vesper Sparrow","Baird's Sparrow","Sage Thrasher","American Pipit","Brown-headed Cowbird","Bullock's Oriole","Common Nighthawk","Eastern Kingbird","Lark Sparrow","Northern Bobwhite","Northern Mockingbird","Ring-necked Pheasant",'Rough-legged Hawk',"Western Kingbird","White-crowned Sparrow","American Crow","American Goldfinch","American Robin","Black-billed Magpie","Black-capped Chickadee","Blue Jay","Bobolink","Brewer's Blackbird","Canada Goose","Dickcissel","Spotted Towhee","Song Sparrow","Chipping Sparrow","Clay-colored Sparrow","Field Sparrow","Dark-eyed Junco","Red-winged Blackbird","Common Grackle","European Starling","House Finch","Lesser Goldfinch","Sprague's Pipit","Rock Pigeon (Feral)","Sharp-tailed Grouse","Loggerhead Shrike","House Sparrow","Cliff Swallow","Violet-green Swallow","Tree Swallow","NRWS","Say's Phoebe","Scissor-tailed Flycatcher","Chihuahuan Raven",'Great Horned Owl',"Turkey Vulture",'Bald Eagle',"Swainson's Hawk","Mallard","Scaled Quail","Cattle Egret","Northern Flicker","American Kestrel","Prairie Falcon",'Golden Eagle',"Red-tailed Hawk","Barn Swallow","Curve-billed Thrasher","Long-billed Curlew","CCLO/TBLO","Chestnut-collared Longspur","Thick-billed Longspur","Upland Sandpiper","WEME/EAME","Mourning Dove",'Northern Harrier','Ferruginous Hawk',"Killdeer","Horned Lark","Mountain Plover","Burrowing Owl")), fill = Abundance_Change), width = 1, color = "black") +
   labs(y = "", x = "# of Analyses") +
-  scale_fill_manual("Abundance Effect", values = cbPalette) + 
-  scale_x_continuous(expand = c(0, 0), limits = c(-10, 18)) +
-  scale_y_discrete(expand = c(0, 0)) +
-  #ggtitle("Prairie Dog Effects on Bird Occurrence/Abundance") +
-  theme_bw() + 
+  scale_fill_manual("Analyses Affecting Occurrence/Abundance", values = cbPalette) + 
+  scale_x_continuous(expand = c(0, 0), limits = c(0, 18)) +
+  scale_y_discrete(expand = c(0, 0), labels = c("grasshopper sparrow","lark bunting","brewer's sparrow","western meadowlark","cassin's sparrow","vesper sparrow","baird's sparrow","sage thrasher","american pipit","brown-headed cowbird","bullock's oriole","common nighthawk","eastern kingbird","lark sparrow","northern bobwhite","northern mockingbird","ring-necked pheasant",'rough-legged hawk',"western kingbird","white-crowned sparrow","american crow","american goldfinch","american robin","black-billed magpie","black-capped chickadee","blue jay","bobolink","brewer's blackbird","canada goose","dickcissel","spotted towhee","song sparrow","chipping sparrow","clay-colored sparrow","field sparrow","dark-eyed junco","red-winged blackbird","common grackle","european starling","house finch","lesser goldfinch","sprague's pipit","rock pigeon (feral)","sharp-tailed grouse","loggerhead shrike","house sparrow","cliff swallow","violet-green swallow","tree swallow","n. rough-winged swallow","say's phoebe","scissor-tailed flycatcher","chihuahuan raven","turkey vulture","swainson's hawk","mallard","scaled quail","cattle egret","northern flicker","american kestrel","prairie falcon",'golden eagle',"red-tailed hawk","barn swallow","curve-billed thrasher","long-billed curlew","cclo/tblo","chestnut-collared longspur","thick-billed longspur","upland sandpiper","weme/eame","mourning dove",'northern harrier','ferruginous hawk',"killdeer","horned lark","mountain plover","burrowing owl")) +
+  theme_classic() +
+  theme(legend.position = c(0.72, 0.85)) +
   theme(panel.grid.minor = element_blank()) + 
-  theme(axis.title=element_text(size=18, color="black"),
-        axis.text.y = element_text(size=10, color="black", hjust = 1),
-        #legend.position = "none",
-        legend.text=element_text(size=11),
-        legend.title=element_text(size=12)
+  theme(axis.title=element_text(size=16, color="black", vjust = 2),
+        axis.text.y = element_text(size=22, color="black", hjust = 1),
+        axis.text.x = element_text(size=22, color="black"),
+        axis.ticks.length.y = unit(0.5, "cm"),
+        axis.title.x = element_text(size=22),
+        legend.text=element_text(size=22),
+        legend.title=element_text(size=22)
   )
-#^^^best plot
+
+new_fig2
+
+ggsave(new_fig2, filename = "~/Documents/R/phd_research/LR_Fig2_R2_test.pdf", height = 26, width = 16)
 
 
 #Hypothesis 2
@@ -200,7 +221,6 @@ ggplot(rev2) +
   scale_fill_manual("Bird Category", values = cbPalette)
 
 
-
 #Hypothesis 3
 raptor_rev<-raptor_rev %>% filter(raptor_rev$Hypothesis_3 != "NA")
 
@@ -212,7 +232,6 @@ ggplot(raptor_rev) +
   scale_fill_manual("Bird Category", values = cbPalette)
 
 summary(raptor_rev$Hypothesis_3)
-
 
 #read in H3 dataset
 hyp3<-read.csv("LR_H3_Table_Final.csv")
@@ -229,6 +248,7 @@ cbPalette <- c("#CC79A7", "#E69F00","#56B4E9")
 #Figure 3
 ggplot(hyp3) + #in order of support
   geom_bar(aes(y=factor(Bird.Species, levels=c("Swainson's Hawk","American Kestrel",'Great Horned Owl',"Turkey Vulture",'Northern Harrier','Rough-legged Hawk',"Red-tailed Hawk","Prairie Falcon",'Bald Eagle','Golden Eagle','Ferruginous Hawk')), fill = Conclusion)) + 
+  geom_text(stat='count', aes(y=Bird.Species, label=after_stat(count)),hjust=-0.2, size = 6) + 
   labs(x = "# of Analyses", y = "") +
   scale_fill_manual("Conclusion", values = cbPalette) + 
   #ggtitle("Prairie Dog Effects on Raptors") +
@@ -236,9 +256,9 @@ ggplot(hyp3) + #in order of support
   theme_bw() + 
   theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank()) +
   theme(axis.title=element_text(size=20,color="black"),
-        axis.text = element_text(size=14,color="black"),
-        legend.text=element_text(size=11),
-        legend.title=element_text(size=12))
+        axis.text = element_text(size=18,color="black"),
+        legend.text=element_text(size=16),
+        legend.title=element_text(size=16))
 
 #^^^^best plot
 
@@ -299,7 +319,7 @@ summary(rev_study$BCRNAME)
 
 ggplot(rev_study) +
   geom_bar(aes(x=reorder(BCRNAME,BCRNAME,function(x)-length(x)), fill=BCRNAME))+
-  geom_text(stat='count', aes(x=BCRNAME, label=after_stat(count)),vjust=-1) + 
+  geom_text(stat='count', aes(x=BCRNAME, label=after_stat(count)),vjust=-1, size = 6) + 
   labs(x = "Bird Conservation Region", y = "# of Studies", color = "BCRNAME")+
   scale_fill_manual("BCRNAME", values = cbPalette)+
   scale_y_continuous(expand = c(0, 0), limits = c(0, 45)) +
@@ -307,12 +327,14 @@ ggplot(rev_study) +
   theme_bw()+
   theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank()) +
   theme(
-    axis.title = element_text(size = 18),
-    legend.text=element_text(size=11),
-    legend.title=element_text(size=12),
+    axis.title = element_text(size = 18,color="black"),
+    axis.text = element_text(size=18,color="black"),
+    legend.text=element_text(size=14,color="black"),
+    legend.title=element_text(size=14,color="black"),
     axis.text.x = element_blank(),
     axis.ticks.x = element_blank()
   )
+
 
 #study site frequency breakdown
 summary(rev_study$Loc_Name)
@@ -371,59 +393,85 @@ plains<-subset(states, region %in% c ("montana","washington","idaho","minnesota"
 
 NAm_map<-map_data("world", region = c("Mexico", "Canada"))
 
+bm0<-ggplot(data = NAm_map, mapping = aes(x = long, y = lat, group = group)) + 
+  geom_polygon(data = NAm_map, color = "black", fill = "white", size = 0.1) + 
+  geom_polygon(data = plains, color = "black", fill = "white", size = 0.1) +
+  coord_fixed(xlim = c(-116,-93), ylim = c(23,53), ratio = 1.2) +
+  labs(x = "Longitude", y = "Latitude",color="Bird Category") +
+  scale_x_longitude(breaks = c(-110, -100)) +
+  scale_y_latitude(breaks = c(50, 40, 30)) +
+  theme(legend.position="none",
+        axis.title = element_text(size=18),
+        axis.text = element_text(size = 14),
+        panel.background = element_blank())
+
+bm0 #works
+
 #add in PD range shapefiles
+BTPD_range<-st_read("./PD_Ranges/BTPD_shp/data_0.shp") #works
+WTPD_range<-st_read("./PD_Ranges/WTPD_shp/data_0.shp")
+MEPD_range<-st_read("./PD_Ranges/MEPD_shp/data_0.shp")
+UTPD_range<-st_read("./PD_Ranges/UTPD_shp/data_0.shp")
+GUPD_range<-st_read("./PD_Ranges/GUPD_shp/data_0.shp")
 
-BTPD_range<-readOGR(dsn = "./PD_Ranges/BTPD_shp",layer = "data_0")
-WTPD_range<-readOGR(dsn = "./PD_Ranges/WTPD_shp",layer = "data_0")
-MEPD_range<-readOGR(dsn = "./PD_Ranges/MEPD_shp",layer = "data_0")
-UTPD_range<-readOGR(dsn = "./PD_Ranges/UTPD_shp",layer = "data_0")
-GUPD_range<-readOGR(dsn = "./PD_Ranges/GUPD_shp",layer = "data_0")
+BTPD_geom<-st_geometry(BTPD_range) #works--> can view geometry now
+WTPD_geom<-st_geometry(WTPD_range)
+MEPD_geom<-st_geometry(MEPD_range)
+UTPD_geom<-st_geometry(UTPD_range)
+GUPD_geom<-st_geometry(GUPD_range)
 
-BTPD_range_df<-fortify(BTPD_range)
-WTPD_range_df<-fortify(WTPD_range)
-MEPD_range_df<-fortify(MEPD_range)
-UTPD_range_df<-fortify(UTPD_range)
-GUPD_range_df<-fortify(GUPD_range)
+plot(BTPD_geom[[1]])
 
-cbPalette <- c("#CC79A7", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#999999")
+#mapping PD range boundaries
+PD_map<-ggplot() + 
+  geom_sf(data = BTPD_geom, fill = NA, color = "#E69F00")+
+  geom_sf(data = WTPD_geom, fill = NA, color = "#8452ba")+
+  geom_sf(data = MEPD_geom, fill = NA, color = "#CC79A7")+
+  geom_sf(data = UTPD_geom, fill = NA, color = "#8f810d")+
+  geom_sf(data = GUPD_geom, fill = NA, color = "#009E73")
 
-bm<-ggplot(data = NAm_map, aes(x = long, y = lat, group = group), fill = "#c9c9c9", size = 0.2) + 
-  geom_polygon() + 
-  geom_polygon(data = plains, color = "#c9c9c9", size = 0.2) +
-  geom_polygon(data = BTPD_range_df, fill = NA, color = "#E69F00") + #with PD ranges
-  geom_polygon(data = WTPD_range_df, fill = NA, color = "#8452ba") +
-  geom_polygon(data = MEPD_range_df, fill = NA, color = "#CC79A7") +
-  geom_polygon(data = UTPD_range_df, fill = NA, color = "#8f810d") +
-  geom_polygon(data = GUPD_range_df, fill = NA, color = "#009E73") + 
-  coord_fixed(xlim = c(-116,-93), ylim = c(23,53), ratio = 1.2) +
+PD_map #works!
+
+#putting both together
+bm<-ggplot()+
+  geom_polygon(data = NAm_map, aes(x = long, y = lat, group = group), color = "black", fill = "white", size = 0.1) + 
+  geom_polygon(data = plains, aes(x = long, y = lat, group = group), color = "black", fill = "white", size = 0.1, inherit.aes = FALSE) +
+  geom_sf(data = BTPD_geom, fill = NA, color = "#E69F00", linewidth = 0.8) +
+  geom_sf(data = WTPD_geom, fill = NA, color = "#8452ba", linewidth = 0.8) +
+  geom_sf(data = MEPD_geom, fill = NA, color = "#CC79A7", linewidth = 0.8) +
+  geom_sf(data = UTPD_geom, fill = NA, color = "#8f810d", linewidth = 0.8) +
+  geom_sf(data = GUPD_geom, fill = NA, color = "#009E73", linewidth = 0.8) + 
+  scale_x_continuous(labels = ~ .x) +
+  scale_y_continuous(labels = ~ .x) +
+  coord_sf(xlim = c(-116,-93), ylim = c(23,53)) +
   labs(x = "Longitude", y = "Latitude",color="Bird Category")
 
-bm #works
+bm #works!
 
-bm0<-ggplot(NAm_map, aes(x = long, y = lat, group = group), fill = "#c9c9c9") + #without PD ranges
-  geom_polygon() + 
-  geom_polygon(data = plains, color = "#c9c9c9", size = 0.2) + 
-  coord_fixed(xlim = c(-116,-93), ylim = c(23,53), ratio = 1.2) +
-  labs(x = "Longitude", y = "Latitude",color="Bird Category")
+#making a legend for PD species
+bm_leg<-ggplot()+
+  geom_polygon(data = NAm_map, aes(x = long, y = lat, group = group), color = "black", fill = "white", size = 0.1) + 
+  geom_polygon(data = plains, aes(x = long, y = lat, group = group), color = "black", fill = "white", size = 0.1, inherit.aes = FALSE) +
+  geom_sf(data = BTPD_geom, aes(color = "#E69F00", alpha = 0.0), linewidth = 0.8, fill = NA, show.legend = "line") +
+  geom_sf(data = WTPD_geom, aes(color = "#8452ba", alpha = 0.0), linewidth = 0.8, fill = NA, show.legend = "line") +
+  geom_sf(data = MEPD_geom, aes(color = "#CC79A7", alpha = 0.0), linewidth = 0.8, fill = NA, show.legend = "line") +
+  geom_sf(data = UTPD_geom, aes(color = "#8f810d", alpha = 0.0), linewidth = 0.8, fill = NA, show.legend = "line") +
+  geom_sf(data = GUPD_geom, aes(color = "#009E73", alpha = 0.0), linewidth = 0.8, fill = NA, show.legend = "line") + 
+  coord_sf(xlim = c(-116,-93), ylim = c(23,53)) +
+  #scale_x_continuous(labels = ~ .x) +
+  #scale_y_continuous(labels = ~ .x) +
+  scale_x_longitude(breaks = c(-110, -100)) +
+  scale_y_latitude(breaks = c(50, 40, 30)) +
+  scale_color_identity(guide="legend", labels = c('GUPD','WTPD','UTPD','MEPD','BTPD')) +
+  guides(alpha = "none", color = guide_legend(override.aes = list(size = 14))) + 
+  labs(x = "Longitude", y = "Latitude",color="Cynomys Species") +
+  theme(legend.position = "bottom",
+        legend.text=element_text(size=14),
+        legend.title=element_text(size=16),
+        axis.title=element_text(size=18),
+        axis.text=element_text(size=14))
 
-bm0
-
-bm_leg<-ggplot(NAm_map, aes(x = long, y = lat, group = group), fill = "white") + #with legend for PD species
-  geom_polygon() + 
-  geom_polygon(data = plains, color = "white")+
-  coord_fixed(xlim = c(-116,-93), ylim = c(23,53), ratio = 1.2) +
-  geom_polygon(data = BTPD_range_df, aes(color = "#E69F00", alpha = 0.0))+
-  geom_polygon(data = WTPD_range_df, aes(color = "#8452ba", alpha = 0.0))+
-  geom_polygon(data = MEPD_range_df, aes(color = "#CC79A7", alpha = 0.0))+
-  geom_polygon(data = UTPD_range_df, aes(color = "#F0E442", alpha = 0.0))+
-  geom_polygon(data = GUPD_range_df, aes(color = "#009E73", alpha = 0.0))+
-  scale_color_identity(guide="legend", labels = c('GUPD','WTPD','MEPD','BTPD','UTPD')) +
-  guides(alpha = "none") +
-  labs(x = "Longitude", y = "Latitude",color="Cynomys Species")+
-  theme(legend.position = "bottom")
-
-bm_leg #works with ggnewscale package
-
+bm_leg #works!
 
 #map of study locations overlaid on PD ranges
 p_mopl<-bm +
@@ -432,13 +480,19 @@ p_mopl<-bm +
   #geom_jitter(height = 10, width = 10) +
   labs(x = "", y = "",color="Sampling Periods")+
   ggtitle("Mountain Plover") +
-  scale_size_continuous(range = c(3,13),guide = "none") + 
+  #scale_size_continuous(range = c(3,13),guide = "none") + 
+  #scale_alpha(guide = "none") + 
+  scale_size_continuous(range = c(3,13)) + 
   scale_alpha(guide = "none") + 
-  #scale_color_manual(values = c("Breeding Season" = "#c25c4d","Breeding, Postbreeding Migration" = "#dda821","Nonbreeding Season" = "#337197", "Year-round" = "#775178", "Breeding, Nonbreeding" = "#7cad58", "Not applicable" = "gray")) +
-  theme(legend.position="none",
+  scale_x_longitude(breaks = c(-110, -100)) +
+  scale_y_latitude(breaks = c(50, 40, 30)) +
+  #scale_color_manual("red",guide = "none") + 
+  #scale_color_manual(values = c("Breeding Season" = "red","Breeding, Postbreeding Migration" = "red","Nonbreeding Season" = "red", "Year-round" = "red", "Breeding, Nonbreeding" = "red", "Not applicable" = "red")) +
+  theme(#legend.position="none",
         legend.text=element_text(size=11),
         legend.title=element_text(size=12),
         axis.title=element_text(size=18),
+        axis.text = element_text(size = 14),
         plot.title=element_text(size=18),
         panel.background = element_blank(),
         #legend.position = 'none'
@@ -454,11 +508,14 @@ p_raptor<-bm +
   ggtitle("Raptors") +
   scale_size_continuous(range = c(3,13),guide = "none") + 
   scale_alpha(guide = "none") + 
+  scale_x_longitude(breaks = c(-110, -100)) +
+  scale_y_latitude(breaks = c(50, 40, 30)) +
   #scale_color_manual(values = c("Breeding Season" = "#c25c4d","Breeding, Postbreeding Migration" = "#dda821","Nonbreeding Season" = "#337197", "Year-round" = "#775178", "Breeding, Nonbreeding" = "#7cad58", "Not applicable" = "gray")) +
   theme(legend.position="none",
         legend.text=element_text(size=11),
         legend.title=element_text(size=12),
         axis.title=element_text(size=18),
+        axis.text = element_text(size = 14),
         plot.title=element_text(size=18),
         panel.background = element_blank(),
         #legend.position = 'none'
@@ -474,11 +531,14 @@ p_gen<-bm +
   ggtitle("General Birds") +
   scale_size_continuous(range = c(3,13),guide = "none") + 
   scale_alpha(guide = "none") + 
+  scale_x_longitude(breaks = c(-110, -100)) +
+  scale_y_latitude(breaks = c(50, 40, 30)) +
   #scale_color_manual(values = c("Breeding Season" = "#c25c4d","Breeding, Postbreeding Migration" = "#dda821","Nonbreeding Season" = "#337197", "Year-round" = "#775178", "Breeding, Nonbreeding" = "#7cad58", "Not applicable" = "gray")) +
   theme(legend.position="none",
         legend.text=element_text(size=11),
         legend.title=element_text(size=12),
         axis.title=element_text(size=18),
+        axis.text = element_text(size = 14),
         plot.title=element_text(size=18),
         panel.background = element_blank(),
         #legend.position = 'none'
@@ -494,11 +554,14 @@ p_buow<-bm +
   ggtitle("Burrowing Owl") +
   scale_size_continuous(range = c(3,13),guide = "none") + 
   scale_alpha(guide = "none") + 
+  scale_x_longitude(breaks = c(-110, -100)) +
+  scale_y_latitude(breaks = c(50, 40, 30)) +
   #scale_color_manual(values = c("Breeding Season" = "#c25c4d","Breeding, Postbreeding Migration" = "#dda821","Nonbreeding Season" = "#337197", "Year-round" = "#775178", "Breeding, Nonbreeding" = "#7cad58", "Not applicable" = "gray")) +
   theme(legend.position="none",
         legend.text=element_text(size=11),
         legend.title=element_text(size=12),
         axis.title=element_text(size=18),
+        axis.text = element_text(size = 14),
         plot.title=element_text(size=18),
         panel.background = element_blank()
   )
@@ -526,12 +589,14 @@ p_mopl<-bm0 +
   ggtitle("Mountain Plover") +
   scale_size_continuous(range = c(3,13),guide = "none") + 
   scale_alpha(guide = "none") + 
+  scale_x_longitude(breaks = c(-110, -100)) +
+  scale_y_latitude(breaks = c(50, 40, 30)) +
   scale_color_manual(values = c("Breeding Season" = "#c25c4d","Breeding, Postbreeding Migration" = "#dda821","Nonbreeding Season" = "#337197", "Year-round" = "#775178", "Breeding, Nonbreeding" = "#7cad58", "Not applicable" = "gray")) +
   theme(legend.position="none",
-        legend.text=element_text(size=11),
-        legend.title=element_text(size=12),
+        legend.text=element_text(size=20),
+        legend.title=element_text(size=20),
         axis.title=element_text(size=18),
-        plot.title=element_text(size=18),
+        plot.title=element_text(size=20),
         panel.background = element_blank(),
         #legend.position = 'none'
   )
@@ -546,10 +611,12 @@ p_raptor<-bm0 +
   ggtitle("Raptors") +
   scale_size_continuous(range = c(3,13),guide = "none") + 
   scale_alpha(guide = "none") + 
+  scale_x_longitude(breaks = c(-110, -100)) +
+  scale_y_latitude(breaks = c(50, 40, 30)) +
   scale_color_manual(values = c("Breeding Season" = "#c25c4d","Breeding, Postbreeding Migration" = "#dda821","Nonbreeding Season" = "#337197", "Year-round" = "#775178", "Breeding, Nonbreeding" = "#7cad58", "Not applicable" = "gray")) +
   #scale_color_manual(values = c("Breeding Season" = "red","Breeding, Postbreeding Migration" = "yellow","Nonbreeding Season" = "blue", "Year-round" = "purple", "Breeding, Nonbreeding" = "green", "Not applicable" = "gray")) +
   theme(legend.position="none",
-        legend.text=element_text(size=11),
+        legend.text=element_text(size=12),
         legend.title=element_text(size=12),
         axis.title=element_text(size=18),
         plot.title=element_text(size=18),
@@ -567,9 +634,11 @@ p_gen<-bm0 +
   ggtitle("General Birds") +
   scale_size_continuous(range = c(3,13),guide = "none") + 
   scale_alpha(guide = "none") + 
+  scale_x_longitude(breaks = c(-110, -100)) +
+  scale_y_latitude(breaks = c(50, 40, 30)) +
   scale_color_manual(values = c("Breeding Season" = "#c25c4d","Breeding, Postbreeding Migration" = "#dda821","Nonbreeding Season" = "#337197", "Year-round" = "#775178", "Breeding, Nonbreeding" = "#7cad58", "Not applicable" = "gray")) +
   theme(legend.position="none",
-        legend.text=element_text(size=11),
+        legend.text=element_text(size=12),
         legend.title=element_text(size=12),
         axis.title=element_text(size=18),
         plot.title=element_text(size=18),
@@ -587,9 +656,11 @@ p_buow<-bm0 +
   ggtitle("Burrowing Owl") +
   scale_size_continuous(range = c(3,13),guide = "none") + 
   scale_alpha(guide = "none") + 
+  scale_x_longitude(breaks = c(-110, -100)) +
+  scale_y_latitude(breaks = c(50, 40, 30)) +
   scale_color_manual(values = c("Breeding Season" = "#c25c4d","Breeding, Postbreeding Migration" = "#dda821","Nonbreeding Season" = "#337197", "Year-round" = "#775178", "Breeding, Nonbreeding" = "#7cad58", "Not applicable" = "gray")) +
   theme(legend.position="none",
-        legend.text=element_text(size=11),
+        legend.text=element_text(size=12),
         legend.title=element_text(size=12),
         axis.title=element_text(size=18),
         plot.title=element_text(size=18),
@@ -606,11 +677,15 @@ p_dummy<-bm0 + #for legend
   ggtitle("Burrowing Owl") +
   scale_size_continuous(range = c(3,13),guide = "none") + 
   scale_alpha(guide = "none") + 
+  scale_x_longitude(breaks = c(-110, -100)) +
+  scale_y_latitude(breaks = c(50, 40, 30)) +
   scale_color_manual(values = c("Breeding Season" = "#c25c4d","Breeding, Postbreeding Migration" = "#dda821","Nonbreeding Season" = "#337197", "Year-round" = "#775178", "Breeding, Nonbreeding" = "#7cad58", "Not applicable" = "gray")) +
+  guides(color = guide_legend(override.aes = list(size = 8, shape = c(15,15,15,15,15)))) + 
   theme(legend.position="bottom",
-        legend.text=element_text(size=11),
-        legend.title=element_text(size=12),
+        legend.text=element_text(size=18),
+        legend.title=element_text(size=18),
         axis.title=element_text(size=18),
+        axis.text = element_text(size=10),
         plot.title=element_text(size=18),
         panel.background = element_blank()
   )
@@ -645,23 +720,23 @@ levels(rev$Bird_Category) <- c('Burrowing Owl','General','Mountain Plover','Rapt
 #Figure 5
 ggplot(rev) +
   geom_bar(aes(x=Effect_Type, fill=Effect_Type))+
-  geom_text(stat='count', aes(x=Effect_Type, label=after_stat(count)),vjust=-1) + 
+  geom_text(stat='count', aes(x=Effect_Type, label=after_stat(count)),vjust=-1, size = 6) + 
   #facet_grid(~factor(rev$Bird_Category, levels=c("MOPL","BUOW","Raptor","General")))+
-  facet_grid(~factor(rev$Bird_Category, levels=c("Mountain Plover","Burrowing Owl","Raptor","General")))+ #horizontal
+  facet_grid(~factor(rev$Bird_Category, levels=c("Mountain Plover","General","Raptor","Burrowing Owl")))+ #horizontal
   labs(x = "", y = "# of Analyses",color="Effect Type")+
   #ggtitle("Analyses by Bird Category") +
-  scale_fill_manual("Effect Type", values = cbPalette) +
+  scale_fill_manual("PD Effect Type", values = cbPalette) +
   scale_y_continuous(expand = c(0, 0), limits = c(0, 40)) +
   theme_bw() + 
   theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank()) +
-  theme(axis.title=element_text(size=18),
-        legend.text=element_text(size=11),
-        strip.text = element_text(size=14),
-        legend.title=element_text(size=12),
+  theme(axis.title=element_text(size=20),
+        legend.text=element_text(size=16),
+        strip.text = element_text(size=18),
+        legend.title=element_text(size=16),
+        axis.text.y = element_text(size=18,color="black"),
         axis.text.x = element_blank(),
         axis.ticks.x = element_blank()
   )
 
 #^^^best plot
-
 
